@@ -1,0 +1,56 @@
+.container{
+    display: block;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2%;
+    margin-bottom: 5%;
+}
+.about-us label{
+    display: block;
+}
+.mat-form-field{
+    width: 80%;
+}
+.mat-form-field textarea{
+    width: 100%;
+    border-right: 1px;
+}
+.form-group{
+    margin-bottom: inherit;
+}
+.mat-button{
+    float: right;
+}
+.form-row{
+    margin-bottom: 1%;
+}
+.mat-mini-fab{
+    float: right;
+}
+.QA, .FAQS{
+    margin-top: 3%;
+}
+.QA{
+    width: 90%;
+    display: inline-block;
+}
+.deleteFAQ{
+    margin-top: 5%;
+    background-color: red;
+}
+.FAQ{
+    width: 90%
+}
+.seoData{
+    margin-top: 2%;
+    margin-bottom: 0%;
+}
+.seoData input{
+    margin-bottom: 1%;
+}
+.mat-divider{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}

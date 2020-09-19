@@ -1,0 +1,110 @@
+<div class="modal-header">
+  <h4 class="modal-title">Add Tests</h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <kt-portlet>
+    <ng-container ktPortletTools>
+      <button
+        mat-raised-button
+        color="primary"
+        matTooltip="Add Another Test"
+        (click)="addTestItem()"
+      >
+        Add Another
+      </button>
+    </ng-container>
+    <kt-portlet-body *ngIf="!loading">
+      <form
+        class="kt-form kt-form--group-seperator-dashed"
+        [formGroup]="testsForm"
+        (ngSubmit)="onSubmit()"
+        (change)="formChanged()"
+      >
+        <div
+          class="kt-form__section kt-form__section--first"
+          formArrayName="tests"
+        >
+          <div
+            *ngFor="let item of getFormArray.controls; let i = index"
+          >
+            <form [formGroup]="getFormArray.controls[i]">
+              <div class="form-group kt-form__group row">
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                  <mat-form-field class="mat-form-field-fluid">
+                    <mat-label>
+                      Test Name
+                    </mat-label>
+
+                    <input
+                      type="text"
+                      placeholder="Pick one"
+                      aria-label="Number"
+                      matInput
+                      formControlName="test"
+                      [matAutocomplete]="auto"
+                    />
+                    <mat-autocomplete
+                      [displayWith]="displayFn"
+                      #auto="matAutocomplete"
+                    >
+                      <mat-option
+                        *ngFor="let option of filteredOptions | async"
+                        [value]="option"
+                      >
+                        {{ option['name'] }}
+                      </mat-option>
+                    </mat-autocomplete>
+
+                    <mat-error *ngIf="nonAddedTests.length === 0"
+                      >No more tests to add.</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+
+                <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                  <button
+                    *ngIf="i > 0"
+                    mat-icon-button
+                    color="warn"
+                    matTooltip="Delete"
+                    type="button"
+                    (click)="deleteLast()"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </form>
+    </kt-portlet-body>
+
+    <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+  </kt-portlet>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close('Close click')"
+  >
+    Close
+  </button>
+  <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="testsForm.invalid"
+    (click)="onSubmit()"
+  >
+    Save changes
+  </button>
+</div>

@@ -1,0 +1,189 @@
+<div class="row" *ngIf="statsMap">
+  <div class="col-md-3 col-xs-6">
+    <kt-simple-box
+      [label]="'Completed Orders'"
+      [icon]="'fa-check'"
+      [value]="statsMap.completed_orders"
+    ></kt-simple-box>
+  </div>
+
+  <div class="col-md-3 col-xs-6">
+    <kt-simple-box
+      [label]="'Active Orders'"
+      [icon]="'fa-spinner'"
+      [value]="statsMap.active_orders"
+    ></kt-simple-box>
+  </div>
+
+  <div class="col-md-3 col-xs-6">
+    <kt-simple-box
+      [label]="'Total Customers'"
+      [icon]="'fa-user-friends'"
+      [value]="statsMap.total_customers"
+    ></kt-simple-box>
+  </div>
+
+  <div class="col-md-3 col-xs-6">
+    <kt-simple-box
+      [label]="'Total Chemists'"
+      [icon]="'fa-motorcycle'"
+      [value]="statsMap.total_chemists"
+    ></kt-simple-box>
+  </div>
+
+  <div class="col-md-6 col-xs-6">
+    <kt-simple-box
+      [label]="'Available Chemists'"
+      [icon]="'fa-signal'"
+      [value]="statsMap.active_chemists"
+    ></kt-simple-box>
+  </div>
+
+  <div class="col-md-6 col-xs-6">
+    <kt-simple-box
+      [label]="'Samples Collected'"
+      [icon]="'fa-vials'"
+      [value]="statsMap.total_samples"
+    ></kt-simple-box>
+  </div>
+
+  <div class="col-md-3 col-xs-3">
+    <kt-simple-box
+      [label]="'Rejected Samples'"
+      [icon]="'fa-times'"
+      [value]="statsMap.rejected_samples"
+    ></kt-simple-box>
+  </div>
+
+  <div class="col-md-3 col-xs-3">
+    <kt-simple-box
+      [label]="'Cancelled Orders'"
+      [icon]="'fa-times'"
+      [value]="statsMap.cancelled_orders"
+    ></kt-simple-box>
+  </div>
+
+  <div class="col-md-6 col-xs-6">
+    <kt-simple-box
+      [label]="'Results Exported'"
+      [icon]="'fas fa-file-export'"
+      [value]="statsMap.total_results"
+    ></kt-simple-box>
+  </div>
+
+  <div class="col-md-6 col-xs-6">
+    <kt-simple-box
+      [label]="'Total Tests'"
+      [icon]="'fa-file-alt'"
+      [value]="statsMap.total_tests"
+    ></kt-simple-box>
+  </div>
+
+  <div class="col-md-6 col-xs-6">
+    <kt-simple-box
+      [label]="'Total Labs'"
+      [icon]="'fas fa-flask'"
+      [value]="statsMap.total_labs"
+    ></kt-simple-box>
+  </div>
+</div>
+<kt-widget1 [data]="profitsData"></kt-widget1>
+
+<!-- TOP Labs Section -->
+<div class="row" *ngIf="statsMap">
+  <kt-portlet style="width: 100%;">
+    <kt-portlet-header [title]="'Top Labs'"> </kt-portlet-header>
+    <kt-portlet-body>
+      <div
+        class="lab-row d-flex align-items-center"
+        *ngFor="let labObj of statsMap.top_labs"
+      >
+        <div class="img kt-padding-15" style="width: 120px;">
+          <img
+            style="width: 60px; height: 60px; object-fit: cover;"
+            src="{{
+              labObj.logo ||
+                'https://i.stack.imgur.com/agMKZ.png?s=32&g=1'
+            }}"
+            alt="lab_img"
+          />
+        </div>
+        <div style="flex-grow: 1;">
+          <h4
+            class="d-flex justify-content-between align-items-center"
+          >
+            <span>
+              {{ labObj.name }}
+              <span>
+                <i
+                  *ngIf="labObj.verified"
+                  class="fas fa-check-circle"
+                  style="font-size: 12px; color: green;"
+                ></i>
+              </span>
+            </span>
+            <span style="font-size: 12px; color: #ccc;"
+              >{{ labObj.total_orders }} order(s)</span
+            >
+          </h4>
+          <div class="text-body">
+            {{ labObj.overview }}
+          </div>
+        </div>
+      </div>
+    </kt-portlet-body>
+  </kt-portlet>
+</div>
+
+<!-- TOP ordered Tests -->
+<div class="row" *ngIf="statsMap">
+  <kt-portlet style="width: 100%;">
+    <kt-portlet-header [title]="'Top Tests'"> </kt-portlet-header>
+    <kt-portlet-body>
+      <div
+        class="lab-row d-flex align-items-center"
+        *ngFor="let testObj of statsMap.top_tests"
+      >
+        <div style="flex-grow: 1;">
+          <h4
+            class="d-flex justify-content-between align-items-center"
+          >
+            {{ testObj.name }}
+
+            <span style="font-size: 12px; color: #ccc;"
+              >{{ testObj.total_orders }} order(s)</span
+            >
+          </h4>
+          <div class="text-body">
+            {{ testObj.overview }}
+          </div>
+        </div>
+      </div>
+    </kt-portlet-body>
+  </kt-portlet>
+</div>
+
+<!-- TOP Areas -->
+<div class="row" *ngIf="statsMap">
+  <kt-portlet style="width: 100%;">
+    <kt-portlet-header [title]="'Top Areas'"> </kt-portlet-header>
+    <kt-portlet-body>
+      <div
+        class="lab-row d-flex align-items-center"
+        *ngFor="let areaObj of statsMap.top_areas"
+      >
+        <div style="flex-grow: 1;">
+          <h4
+            class="d-flex justify-content-between align-items-center"
+          >
+            {{ areaObj.name }}
+
+            <span style="font-size: 12px; color: #ccc;"
+              >{{ areaObj.total_orders }} order(s)</span
+            >
+          </h4>
+        </div>
+      </div>
+    </kt-portlet-body>
+  </kt-portlet>
+</div>

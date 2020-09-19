@@ -1,0 +1,70 @@
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    padding-left: 0%;
+    padding-right: 0%;
+    position: relative;
+}
+.header {
+    min-height: 64px;
+    padding: 8px 24px 0;
+    margin-right: 2%;
+    margin-left: 2%;
+    position: relative;
+}
+.headerLabel{
+    margin-left: 4%;
+    font-size: 14px;
+}
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+    border-radius: 5px;
+}
+.addAdminButton{
+    position: absolute;
+    top: 0px;
+    right: 15px;
+}
+.mat-select{
+    margin-left: 2%;
+}
+::ng-deep #role-value {
+    .mat-select-value {
+        max-width: 100% !important;
+        width: auto !important;
+    }  
+}
+.pageNav{
+    margin-right: 5%;
+}
+.paginator{
+    height: 40px;
+    background-color: white;
+    display: flex;
+    justify-content: space-around;
+}
+.pageSize, .pageNumber{
+    width: 50px;
+    padding-top: 10px;
+    margin-left: 0;
+}
+.pageNumber{
+    justify-self: right;
+}
+.actions-cell{
+    justify-content: center
+}
+.fa-edit{
+    color: #5d78ff;
+    cursor: pointer;
+}
+.link:hover{
+    text-decoration-line: underline !important;
+}

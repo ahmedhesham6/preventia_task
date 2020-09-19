@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ title }}</h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <kt-generic-form
+    *ngIf="modelData"
+    [title]="title"
+    [modelData]="modelData"
+    [instanceData]="instanceData"
+    (notifyParentCancel)="_onCancel()"
+    (notifyParentSuccess)="_onSubmitSuccess($event)"
+    [modalFlag]="true"
+    [gate]="gate"
+    [query]="query"
+  >
+  </kt-generic-form>
+</div>

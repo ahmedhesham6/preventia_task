@@ -1,0 +1,70 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ label || 'Added Transaction' }}</h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <kt-portlet>
+    <ng-container ktPortletTools>
+      <div
+        [formGroup]="formGroup"
+        class="col-md-12"
+        style="padding: 10px;"
+      >
+        <mat-form-field class="col-md-6" required>
+          <mat-label>Amount</mat-label>
+          <input
+            matInput
+            required
+            placeholder="0.00 EGP"
+            type="number"
+            formControlName="amount"
+          />
+        </mat-form-field>
+        <mat-form-field class="col-md-6">
+          <mat-label>Transaction Type</mat-label>
+
+          <mat-select required formControlName="type">
+            <mat-option
+              *ngFor="let option of transTypes"
+              [value]="option"
+              >{{ option }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+
+        <div class="col-md-6">
+          <mat-label>Verified</mat-label>
+
+          <mat-checkbox formControlName="verified"></mat-checkbox>
+        </div>
+      </div>
+    </ng-container>
+  </kt-portlet>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close('close')"
+  >
+    Close
+  </button>
+  <mat-spinner [hidden]="!loading" [diameter]="10"></mat-spinner>
+
+  <button
+    [disabled]="formGroup.invalid"
+    type="submit"
+    *ngIf="!loading"
+    class="btn btn-primary"
+    (click)="onSubmit()"
+  >
+    Submit Transaction
+  </button>
+</div>

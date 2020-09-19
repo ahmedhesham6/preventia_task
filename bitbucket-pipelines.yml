@@ -1,0 +1,21 @@
+# This is a sample build configuration for JavaScript.
+# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# ----
+# You can specify a custom docker image from Docker Hub as your build environment
+image: node:10.15.3
+
+pipelines:
+  branches:
+    dev:
+      - step:
+          name: Deploy to server
+          deployment: test
+          caches:
+            - node
+          script: # Modify the commands below to build your repository.
+            - mkdir -p ~/.ssh
+            - cat my_known_hosts >> ~/.ssh/known_hosts
+            - (umask 077 ; echo $SERVER_KEY | base64 --decode > ~/.ssh/id_rsa)
+            - ssh eyesn@46.101.250.99 APP=eye-admin-panel BRANCH=dev REPO_URL=git@bitbucket.org:eyesnteam/eye-admin-panel.git ./update_frontend.sh
+

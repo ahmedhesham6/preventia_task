@@ -1,0 +1,119 @@
+<div class="wrapper">
+  <label for="header" class="headerLabel">Files</label>
+  <div class="header" id="header">
+    <mat-form-field>
+      <input
+        matInput
+        (keyup)="applyFilter($event.target.value)"
+        placeholder="Search by Keywords"
+        id="filter"
+      />
+    </mat-form-field>
+    <button
+      mat-mini-fab
+      class="addAdminButton"
+      (click)="addFile()"
+      disableRipple
+      matTooltip="Add File"
+    >
+      <i class="fas fa-plus"></i>
+    </button>
+  </div>
+  <div class="container mat-elevation-z8" id="role-value">
+    <mat-table [dataSource]="dataSource" matSort>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Name
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ row.name }}</mat-cell>
+      </ng-container>
+      <!-- fileLink Column -->
+      <ng-container matColumnDef="fileLink">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          File Link
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <a class="link" href="{{ row.fileLink }}">Link</a> 
+        </mat-cell>
+      </ng-container>
+  
+      <!-- keywords Column -->
+      <ng-container matColumnDef="keywords">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Keywords
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ row.keywords }} </mat-cell>
+      </ng-container>
+  
+      <!-- FileType Column -->
+      <ng-container matColumnDef="FileType">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          File Type
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ row.FileType?.name }} </mat-cell>
+      </ng-container>
+      <!-- Link Column -->
+      <ng-container matColumnDef="Link">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Link
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          Type: {{ row.Link?.type }}, Name: {{ row.Link?.name }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+          <mat-cell *matCellDef="let row" class="actions-cell">
+            <mat-icon matTooltip="Edit File" (click)="editFile(row)"><i class="fas fa-edit"></i></mat-icon>
+            <!-- <mat-icon matTooltip="Delete File" (click)="deleteFile(row.id)"><i class="fas fa-trash"></i> -->
+          </mat-cell>
+        </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"> </mat-row>
+    </mat-table>
+    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
+    <div class="paginator">
+      <mat-select
+        class="pageSize"
+        [(value)]="pageSize"
+        disableRipple
+        (selectionChange)="updateTable()"
+        placeholder="{{ pageSize }}"
+      >
+        <mat-option
+          *ngFor="let pageSize of pageSizeOptions"
+          value="{{ pageSize }}"
+        >
+          {{ pageSize }}
+        </mat-option>
+      </mat-select>
+      <button
+        disabled
+        class="pageNav"
+        mat-button
+        color="white"
+        matTooltip="Previous page"
+        (click)="previousPage()"
+        id="prevPage"
+      >
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button
+        disabled
+        class="pageNav"
+        mat-button
+        color="white"
+        matTooltip="Next page"
+        (click)="nextPage()"
+        id="nextPage"
+      >
+        <i class="fas fa-chevron-right"></i>
+      </button>
+      <label class="pageNumber"> Page: {{ pageIndex }}</label>
+    </div>
+  </div>
+</div>

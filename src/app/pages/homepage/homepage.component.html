@@ -1,0 +1,119 @@
+<!-- About Us -->
+<div class="container">
+  <form>
+    <div class="form-group">
+      <label for="aboutUs">About Us</label>
+      <textarea class="form-control" id="aboutUs" rows="3"></textarea>
+    </div>
+    <div class="form-group seoData">
+      <label for="aboutUsSEO">SEO Data</label>
+      <input type="text" class="form-control" id="aboutUsSEO" placeholder="name">
+      <input type="text" class="form-control" id="aboutUsSEO" placeholder="description">
+      <input type="text" class="form-control" id="aboutUsSEO" placeholder="keywords">
+    </div>
+    
+  </form>
+</div>
+
+<mat-divider></mat-divider>
+
+<!-- Contact Us -->
+<div class="container">
+  <form>
+    <div class="form-group">
+      <label>Contact Us</label>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <input type="email" class="form-control" placeholder="Email">
+        </div>
+        <div class="form-group col-md-6">
+          <input type="tel" class="form-control" placeholder="Phone">
+        </div>
+      </div>
+      <textarea class="form-control" rows="3" placeholder="Text"></textarea>
+    </div>
+    <div class="form-group seoData">
+      <label for="aboutUsSEO">SEO Data</label>
+      <input type="text" class="form-control" id="aboutUsSEO" placeholder="name">
+      <input type="text" class="form-control" id="aboutUsSEO" placeholder="description">
+      <input type="text" class="form-control" id="aboutUsSEO" placeholder="keywords">
+    </div>
+    
+  </form>
+</div>
+
+<mat-divider></mat-divider>
+
+<!-- Terms and Conditions -->
+<div class="container">
+  <form>
+    <div class="form-group">
+      <label for="termsAndConditions">Terms and Conditions</label>
+      <textarea class="form-control" id="termsAndConditions" rows="3"></textarea>
+    </div>
+    <div class="form-group seoData">
+      <label for="aboutUsSEO">SEO Data</label>
+      <input type="text" class="form-control" id="aboutUsSEO" placeholder="name">
+      <input type="text" class="form-control" id="aboutUsSEO" placeholder="description">
+      <input type="text" class="form-control" id="aboutUsSEO" placeholder="keywords">
+    </div>
+    
+  </form>
+</div>
+
+<mat-divider></mat-divider>
+
+<!-- Privacy Policy -->
+<div class="container">
+  <form>
+    <div class="form-group">
+      <label>Privacy Policy</label>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <input type="email" class="form-control" placeholder="Email">
+        </div>
+        <div class="form-group col-md-6">
+          <input type="tel" class="form-control" placeholder="Phone">
+        </div>
+      </div>
+      <textarea class="form-control" rows="3" placeholder="Text"></textarea>
+    </div>
+    <div class="form-group seoData">
+      <label for="aboutUsSEO">SEO Data</label>
+      <input type="text" class="form-control" id="aboutUsSEO" placeholder="name">
+      <input type="text" class="form-control" id="aboutUsSEO" placeholder="description">
+      <input type="text" class="form-control" id="aboutUsSEO" placeholder="keywords">
+    </div>
+    
+  </form>
+</div>
+
+<mat-divider></mat-divider>
+
+<!-- FAQs -->
+<div class="container">
+  <label>FAQs</label>
+  <button mat-mini-fab (click)="addFAQ()" disableRipple matTooltip="Add FAQ"><i class="fas fa-plus"></i></button>
+  <div *ngFor="let faq of FAQs" class="FAQs">
+    <div class="FAQ">
+      <div class="QA">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Question">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Answer">
+        </div>
+        
+      </div>
+      <button mat-mini-fab (click)="deleteFAQ(faq)" disableRipple matTooltip="Delete FAQ" class="deleteFAQ"><i
+          class="fas fa-trash"></i></button>
+    </div>
+  </div>
+  <div class="form-group seoData">
+    <label for="aboutUsSEO">SEO Data</label>
+    <input type="text" class="form-control" id="aboutUsSEO" placeholder="name">
+    <input type="text" class="form-control" id="aboutUsSEO" placeholder="description">
+    <input type="text" class="form-control" id="aboutUsSEO" placeholder="keywords">
+  </div>
+  
+</div>

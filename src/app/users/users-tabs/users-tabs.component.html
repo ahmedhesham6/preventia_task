@@ -1,0 +1,10 @@
+<kt-portlet>
+    <kt-generic-list
+      *ngIf="authModel"
+      [modelData]="authModel"
+      [query]="authQuery"
+      [title]="'User accounts'"
+      [gate]="authAPI"
+      (customActionClickEvent)="verifyAccount($event)"
+    ></kt-generic-list>
+</kt-portlet>

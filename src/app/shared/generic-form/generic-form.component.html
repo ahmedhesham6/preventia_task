@@ -1,0 +1,313 @@
+<div
+  class="actual-form"
+  [ngClass]="{ 'modal-form': modalFlag }"
+  *ngIf="formGroup"
+>
+  <kt-portlet>
+    <div *ngIf="wizardFlag" class="form-wizard">
+      <div class="form-body kt-wizard-v1" style="padding: 10px;">
+        <div class="kt-wizard-v1__nav">
+          <div class="kt-wizard-v1__nav-items">
+            <a
+              *ngFor="let item of formGroups; let i = index"
+              class="kt-wizard-v1__nav-item"
+              data-ktwizard-type="step"
+              [ngClass]="{ completed: activeStep >= i + 1 }"
+            >
+              <div class="kt-wizard-v1__nav-body">
+                <div class="kt-wizard-v1__nav-icon">
+                  <i [ngClass]="item.icon"></i>
+                </div>
+                <div class="kt-wizard-v1__nav-label">
+                  {{ i + 1 }}) {{ item.title }}
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div
+          id="bar"
+          class="progress progress-striped"
+          role="progressbar"
+        >
+          <div
+            class="progress-bar progress-bar-success"
+            [ngStyle]="{
+              width: (activeStep / totalSteps) * 100 + '%'
+            }"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <kt-portlet-body>
+      <form
+        *ngIf="formGroup"
+        [formGroup]="formGroup"
+        class="kt-form kt-form--group-seperator-dashed"
+        (ngSubmit)="submit()"
+      >
+        <!-- FIXME: handle forms array (multiple sections within a form) -->
+        <div class="kt-form__section kt-form__section--first">
+          <div
+            class="form-group kt-form__group row"
+            *ngFor="let formSection of formGroups; let i = index"
+            [hidden]="activeStep != i + 1 && wizardFlag"
+          >
+            <div
+              *ngIf="formSection.title && !wizardFlag"
+              style="padding-bottom: 20px;"
+              class="col-xs-12 col-lg-12 col-12"
+            >
+              {{ formSection.title }}
+            </div>
+            <div
+              *ngFor="let input of formSection.inputs"
+              [ngStyle]="{ display: input.hidden ? 'none' : 'block' }"
+              class="kt-margin-bottom-20-mobile"
+              [ngClass]="{
+                'col-lg-12': input.type == 'textarea',
+                'col-lg-6': input.type != 'textarea'
+              }"
+            >
+              <!--Add Asterisk to required fields-->
+              <mat-form-field
+                class="mat-form-field-fluid"
+                *ngIf="
+                  input.type != 'boolean' && input.type != 'file'
+                "
+                [ngSwitch]="input.type"
+                appearance="outline"
+              >
+                <mat-label>
+                  {{ input.name | titlecase }}
+                </mat-label>
+                <div *ngSwitchCase="'select'">
+                  <mat-select
+                    *ngIf="input.simpleOpts"
+                    formControlName="{{ input.gate }}"
+                    [required]="input.required"
+                  >
+                    <mat-option
+                      *ngFor="let option of input.options"
+                      [value]="option"
+                    >
+                      <!-- this span is specific for Color tub eselect case -->
+                      <label
+                        *ngIf="input.colorOptionStyle"
+                        [ngStyle]="{
+                          backgroundColor: option,
+                          color: option,
+                          'margin-right': '20px',
+                          margin: 'auto',
+                          height: '10px',
+                          width: '20px'
+                        }"
+                      >
+                      </label>
+                      {{ option | titlecase }}</mat-option
+                    >
+                  </mat-select>
+
+                  <mat-select
+                    *ngIf="!input.simpleOpts"
+                    [required]="input.required"
+                    formControlName="{{ input.gate }}"
+                  >
+                    <mat-option
+                      *ngFor="let option of input.options"
+                      [value]="option.id"
+                      >{{
+                        option.label ||
+                          option.name ||
+                          option.email ||
+                          (option.firstName + ' ' + option.lastName
+                            | titlecase)
+                      }}</mat-option
+                    >
+                  </mat-select>
+                </div>
+
+                <div *ngSwitchCase="'date'">
+                  <input
+                    matInput
+                    (dateChange)="
+                      handleDateChange(input.gate, $event)
+                    "
+                    [matDatepicker]="picker"
+                    placeholder="Choose a date"
+                    formControlName="{{ input.gate }}"
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker
+                    #picker
+                    startView="year"
+                  ></mat-datepicker>
+                </div>
+
+                <textarea
+                  matInput
+                  *ngSwitchCase="'textarea'"
+                  [required]="input.required"
+                  placeholder="{{ input.placeholder || input.name }}"
+                  formControlName="{{ input.gate }}"
+                ></textarea>
+
+                <input
+                  matInput
+                  *ngSwitchDefault
+                  [required]="input.required"
+                  placeholder="{{ input.placeholder || input.name }}"
+                  [type]="input.type"
+                  [minlength]="input.minLength"
+                  formControlName="{{ input.gate }}"
+                />
+
+                <mat-error
+                  *ngIf="
+                    input.type == 'select' &&
+                    input.options &&
+                    input.options.length == 0 &&
+                    input.required
+                  "
+                >
+                  <strong
+                    >No options provided, please check your seeded
+                    data.</strong
+                  >
+                </mat-error>
+
+                <mat-error
+                  *ngIf="isControlHasError(input.gate, 'required')"
+                >
+                  <strong
+                    >{{ input.name | titlecase }} is required.</strong
+                  >
+                </mat-error>
+
+                <mat-error
+                  *ngIf="isControlHasError(input.gate, 'minlength')"
+                >
+                  <strong>
+                    {{ input.name | titlecase }} must be 8 characters
+                    long</strong
+                  >
+                </mat-error>
+
+                <mat-error
+                  *ngIf="isControlHasError(input.gate, 'email')"
+                >
+                  <strong
+                    >{{ input.name | titlecase }} must be a valid
+                    email.</strong
+                  >
+                </mat-error>
+              </mat-form-field>
+
+              <mat-checkbox
+                formControlName="{{ input.gate }}"
+                [required]="input.required"
+                *ngIf="input.type == 'boolean'"
+              >
+                {{ input.placeholder || input.name }}
+              </mat-checkbox>
+
+              <!-- File Input -->
+              <div class="" *ngIf="input.type === 'file'">
+                <label for="">
+                  {{ input.name }}
+                </label>
+                <input
+                  (change)="onFileChange($event, input.gate)"
+                  #fileBtn
+                  type="file"
+                  accept="image/*"
+                  style="display: none;"
+                />
+                <button
+                  type="button"
+                  (click)="fileBtn.click()"
+                  class="btn"
+                  [disabled]="loading"
+                >
+                  {{ input.label || 'Choose File' }}
+                </button>
+                <mat-spinner
+                  style="color: black;"
+                  [hidden]="uploading == 0"
+                  [diameter]="30"
+                ></mat-spinner>
+                <div
+                  class="d-flex flex-column"
+                  style="padding: 5px;"
+                  *ngIf="uploading == 0 && (imgURL || instanceData)"
+                >
+                  <img
+                    [src]="
+                      imgURL ||
+                      (instanceData && instanceData[input.gate]
+                        ? instanceData[input.gate]
+                        : null)
+                    "
+                    height="200"
+                    *ngIf="
+                      imgURL ||
+                      (instanceData && instanceData[input.gate])
+                    "
+                  />
+                  <span *ngIf="selectedFile">
+                    {{ selectedFile.name }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </kt-portlet-body>
+  </kt-portlet>
+</div>
+
+<div
+  *ngIf="formGroup"
+  [ngClass]="{
+    'modal-footer': modalFlag,
+    'normal-footer': !modalFlag
+  }"
+>
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="cancelChanges()"
+    [hidden]="wizardFlag && activeStep != 1"
+  >
+    {{ cancelBtnText || 'Cancel' }}
+  </button>
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="backChanges()"
+    [hidden]="(wizardFlag && activeStep == 1) || !wizardFlag"
+  >
+    {{ 'Back' }}
+  </button>
+  <button
+    type="submit"
+    class="btn btn-primary"
+    (click)="next()"
+    [hidden]="(wizardFlag && activeStep == totalSteps) || !wizardFlag"
+  >
+    {{ 'Next' }}
+  </button>
+  <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="formGroup.invalid || loading > 0"
+    (click)="submit()"
+    [hidden]="wizardFlag && activeStep != totalSteps"
+  >
+    {{ submitBtnText || 'Submit' }}
+  </button>
+</div>
